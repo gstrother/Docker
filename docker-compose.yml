@@ -1,0 +1,101 @@
+---
+version: "3.7"
+services:
+  sabnzbd:
+    image: linuxserver/sabnzbd
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - C:\configs\sabnzbd:/config
+      - C:\downloads:/downloads
+      - C:\downloads\incomplete:/incomplete-downloads #optional
+    ports:
+      - 8080:8080
+      - 9090:9090
+    restart: unless-stopped
+    
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - UMASK_SET=022 #optional
+    volumes:
+      - C:\configs\sonarr:/config
+      - Z:\TV:/tv
+      - C:\downloads\complete:/downloads
+    ports:
+      - 8989:8989
+      - 9898:9898
+    depends_on: 
+      - sabnzbd  
+    restart: unless-stopped
+    
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - America/Chicago
+      - UMASK_SET=022 #optional
+    volumes:
+      - C:\configs\radarr:/config
+      - Z:\movies:/movies
+      - C:\downloads\complete:/downloads
+    ports:
+      - 7878:7878
+      - 7879:9898
+    depends_on: 
+      -  sabnzbd
+    restart: unless-stopped
+
+  ombi:
+    image: linuxserver/ombi
+    container_name: ombi
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - BASE_URL=/ombi #optional
+    volumes:
+      - C:\configs\ombi:/config
+    ports:
+      - 3579:3579
+    restart: unless-stopped
+
+#  lazylibrarian:
+#    image: linuxserver/lazylibrarian
+#    container_name: lazylibrarian
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=America/Chicago
+#      - DOCKER_MODS=linuxserver/calibre-web:calibre #optional
+#    volumes:
+#      - C:\configs\lazylibrarian:/config
+#      - C:\downloads\complete:/downloads
+#      - Z:\books:/books
+#    ports:
+#      - 5299:5299
+#    restart: unless-stopped  
+
+  headphones:
+    image: linuxserver/headphones
+    container_name: headphones
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - C:\configs\headphones:/config
+      - C:\downloads\complete:/downloads
+      - Z:\music:/music
+    ports:
+      - 8181:8181
+    restart: unless-stopped
