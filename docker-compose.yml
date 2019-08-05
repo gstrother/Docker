@@ -28,7 +28,7 @@ services:
     volumes:
       - C:\configs\sonarr:/config
       - Z:\TV:/tv
-      - C:\downloads\complete:/downloads
+      - C:\downloads:/downloads
     ports:
       - 8989:8989
       - 9898:9898
@@ -47,7 +47,7 @@ services:
     volumes:
       - C:\configs\radarr:/config
       - Z:\movies:/movies
-      - C:\downloads\complete:/downloads
+      - C:\downloads:/downloads
     ports:
       - 7878:7878
       - 7879:9898
@@ -79,7 +79,7 @@ services:
 #      - DOCKER_MODS=linuxserver/calibre-web:calibre #optional
 #    volumes:
 #      - C:\configs\lazylibrarian:/config
-#      - C:\downloads\complete:/downloads
+#      - C:\downloads:/downloads
 #      - Z:\books:/books
 #    ports:
 #      - 5299:5299
@@ -94,7 +94,7 @@ services:
       - TZ=America/Chicago
     volumes:
       - C:\configs\headphones:/config
-      - C:\downloads\complete:/downloads
+      - C:\downloads:/downloads
       - Z:\music:/music
     ports:
       - 8181:8181
